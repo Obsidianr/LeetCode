@@ -1,0 +1,43 @@
+ /**
+     * 匹配最长公共前缀，
+     *水平扫描法
+     * 先找出所有字符串中长度最短的，
+     * 然后以这个长度为界限，遍历比较所有字符串的相同下标的字符是否相等
+     * 若有不相等则返回第一个字符串的匹配的子串或者超过最短长度则返回最短的字符串
+     * @param strs
+     * @return
+     */
+public  String longestCommonPrefix(String[] strs) {
+        if(strs.length==0) return "";//除去空字符串数组影响
+        int len = strs[0].length();
+        int minIndex = 0;//最短字符串下标
+        for (int i=0;i<strs.length;i++){//找出最短字符串长度和下标
+            if(strs[i].length()<len){
+                len = strs[i].length();
+                minIndex = i;
+            }
+        }
+        for(int i = 0; i<len;i++){//字符串下标遍历长度
+            char s = strs[0].charAt(i);
+            for(int j=1;j<strs.length;j++){//遍历比较整个字符串数组的所有字符串相同下标的字符是否相等
+                if(strs[j].charAt(i)!=s)
+                    return strs[0].substring(0,i);//不相等则返回第一个字符串的匹配的子串
+            }
+        }
+        return strs[minIndex];//遍历完成返回最短的字符串
+    }
+
+翻看评论，代码还需优化部分：
+ 用在便利比较时判断当前字符串是否已到其最大长度来代替单独查找最短字符串的部分代码     
+ 
+  public static String longestCommonPrefix(String[] strs) {
+        if(strs.length==0) return "";
+        for(int i = 0; i<strs[1].length();i++){
+            char s = strs[0].charAt(i);
+            for(int j=1;j<strs.length;j++){
+                if(strs[j].charAt(i)!=s||i==strs[j].length())
+                    return strs[0].substring(0,i);
+            }
+        }
+        return strs[0];
+    }
