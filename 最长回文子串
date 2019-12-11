@@ -1,0 +1,39 @@
+/**
+     * 最长回文子串
+     * 扩展中心
+     * @param s
+     * @return
+     */
+    public static String longestPalindrome(String s) {
+        //空串处理
+        if (s==""||s.length()==0) return "";
+
+        int start = 0,end = 0;
+        //每一个位置当作中心
+        for(int i=0;i<s.length();i++){
+            int len1 = findlen(s,i,i);//串长为奇数，中心在字符上
+            int len2 = findlen(s,i,i+1);//串长为偶数，中心在两个字符之间
+            int len = Math.max(len1,len2);//记录最长串
+            if (len>end-start){
+                start = i-(len-1)/2;
+                end = i+len/2;
+            }
+        }
+        return s.substring(start,end+1);
+    }
+
+    /**
+     * 从中心向两边扩展
+     * 返回长度
+     * @param s
+     * @param L
+     * @param R
+     * @return
+     */
+    public  static int findlen(String s,int L,int R){
+        while(L>=0&&R<s.length()&&(s.charAt(L)==s.charAt(R))){
+            L--;
+            R++;
+        }
+        return R-L-1;//-1减掉LR自增的1，回到上一次循环长度
+    }
