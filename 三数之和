@@ -1,0 +1,69 @@
+  /**
+     * 三数之和   双指针
+     写了一早上没写出来
+     看了评论的思路写的屎
+     * @param nums
+     * @return
+     */
+    public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        if(nums.length<3) return list;
+        Arrays.sort(nums);
+        for (int i=0;i<nums.length-1;i++) {
+            if(i>0&&nums[i]==nums[i-1]) continue;
+            int left = i + 1, right = nums.length - 1;
+            while (left < right) {
+                if (nums[left] + nums[right] == -nums[i]) {
+                    List<Integer> ilst = new ArrayList<Integer>();
+                    ilst.add(nums[i]);
+                    ilst.add(nums[left]);
+                    ilst.add(nums[right]);
+                    list.add(ilst);
+                    while (left < right&&nums[left] == nums[left + 1]) left++;
+                    while (right > left&&nums[right] == nums[right - 1]) right--;
+                    if (left < right && right > left) {
+                        left++;
+                        right--;
+                    } else break;
+                }
+                if (left < right) {
+                    if (nums[left] + nums[right] > -nums[i]) right--;
+                    else if (nums[left] + nums[right] < -nums[i]) left++;
+                }
+            }
+        }
+        return list;
+    }
+    
+    
+    别人提交成功的更加精简版的
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> list = new ArrayList<>();
+        int len = nums.length;
+        if (nums == null || nums.length < 3)
+            return list;
+        Arrays.sort(nums);
+        for (int i = 0; i < len - 2; i++) {
+            if (nums[i] > 0)
+                break;
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
+            int left = i + 1, right = len - 1;
+            while (left < right) {
+                if (nums[i] + nums[left] + nums[right] < 0) {
+                    left++;
+                }else if (nums[i] + nums[left] + nums[right] > 0) {
+                    right--;
+                }else {
+                    list.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    while (left < right && nums[left] == nums[left + 1])
+                        left++;
+                    while (left < right && nums[right] == nums[right - 1])
+                        right--;
+                    left++;
+                    right--;
+                }
+            }
+        }
+        return list;
+    }
