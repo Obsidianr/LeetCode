@@ -1,0 +1,48 @@
+/*
+大致思想：除去字符串首的空格之后先判断串首是否是正负号，
+然后逐个取字符判断是否是数字
+如果是正号后则判断是否大于Integer.MAX_VALUE/10，若不大于结果乘以10再加上这个数字；
+如果负号则结果乘以10减这个数字
+最后和前一次的结果比较是否加完比原来的大或者减完比原来的结果小（检验是否溢出）
+*/
+
+
+public int myAtoi(String str) {
+          str = str.trim();//去除字符串首尾空格
+        if (str==""||str.length()==0) return 0;//空串
+        int max = Integer.MAX_VALUE/10+1;
+        char s = str.charAt(0);
+        int result = 0;
+        if ((s<48||s>57)&&s!=45&&s!=43) return result;//非正负号和数字
+        int i = 0;
+        boolean flag = false;
+        if(s==45) {//负号
+            i = 1;
+            flag = true;
+        }
+        if (s==43) i = 1;//正号
+        for( ;i<str.length();i++){//遍历字符串匹配
+            int pro = result;//记录上次结果
+            s = str.charAt(i);
+            if (s>=48&&s<=57){
+                if(result>max) return Integer.MAX_VALUE;
+                if(result<=0-max) return Integer.MIN_VALUE;
+                if(flag){
+                    result = result*10-(s-48);
+                    if(result>pro) return Integer.MIN_VALUE;//判断溢出
+                }else{
+                    result = result*10+(s-48);
+                    if(result<pro) return Integer.MAX_VALUE;//判断溢出
+                }
+                
+            }
+            else break;
+        }
+        return result;
+    }
+    
+    
+    /*
+    代码优化：将记录结果的result改为long型，然后记录正负号，计算时不区分加减全按加法计算，
+    计算结束后如果是负号则0减该结果变成负的，最后判断是否int溢出
+     */
