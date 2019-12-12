@@ -1,0 +1,26 @@
+ 
+ /*
+    思路：双指针法
+          初始化left = 0，right = 1；
+          然后比较下标为left和right的值是否相等，如果相等则right++
+          不相等则将left+1的值替换为right的值并且left++，right++
+          直到right==nums.length结束循环
+          返回left+1。
+ 
+ */
+ 
+ 
+ public int removeDuplicates(int[] nums) {
+        if(nums.length==0) return 0;
+        int left = 0,right = 1;
+        while(right<nums.length){
+            if(nums[left]==nums[right])
+            {right++;}
+            else if(nums[left]<nums[right]){
+                nums[++left] = nums[right];
+                right++;
+               
+            }
+        }
+        return left+1;
+    }
