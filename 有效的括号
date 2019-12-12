@@ -1,0 +1,80 @@
+
+/*大致思路：如果是左括号则入栈，如果是右括号则检查是否栈空，栈空则返回flase，不空则pop栈顶元素检查是否为对应的左括号
+            最后检查栈中元素是否都已出栈。
+      优化：检查字符串长度是否为奇数，是奇数则括号不匹配直接返回flase；
+            检查第一个字符是否为右括号，是则返回flase
+
+*/
+public boolean isValid(String s) {
+        if (s==""&&s.length()==0&&s.length()%2!=0) return true;
+        Stack<Character> stack = new Stack<Character>();
+        for(int i=0;i<s.length();i++){
+            if (s.charAt(i)=='('||s.charAt(i)=='['||s.charAt(i)=='{'){
+                stack.push(s.charAt(i));
+            }
+            if(s.charAt(i)==')'){
+                if (!stack.isEmpty()){
+                    if(stack.pop()!='(') 
+                        return false;
+                }
+                else return false;
+            }
+            if(s.charAt(i)==']'){
+                if (!stack.isEmpty()){
+                    if(stack.pop()!='[') 
+                        return false;
+                }
+                else return false;
+            }
+            if(s.charAt(i)=='}'){
+                if (!stack.isEmpty()){
+                    if(stack.pop()!='{') 
+                        return false;
+                }
+                else return false;
+            }
+        }
+        if (!stack.isEmpty()) return false;
+        return true;
+    }
+    
+    
+public boolean isValid(String s) {
+        if (s.length()%2!=0) {
+			return false;
+		}
+      Stack<String> st = new Stack<String>();
+		String str;
+		for (int i = 0; i < s.length(); i++) {
+			str = Character.toString(s.charAt(i)) ;
+			if (str.equals("(")||str.equals("[")||str.equals("{")) {
+				st.push(str);
+			}
+            if (str.equals(")")||str.equals("]")||str.equals("}")) {
+				if (st.isEmpty()) {
+					return false;
+				}
+			}
+			switch (str) {
+			case ")":
+				if (!"(".equals(st.pop())) {
+					return false;
+				}
+				break;
+			case "]":
+				if (!"[".equals(st.pop())) {
+					return false;
+				}
+				break;
+			case "}":
+				if (!"{".equals(st.pop())) {
+					return false;
+				}
+				break;			
+			}					
+		}
+        if (!st.isEmpty()) {
+			return false;
+		}
+		return true;  
+    }
