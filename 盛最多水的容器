@@ -1,0 +1,38 @@
+暴力解法 太憨了
+ public int maxArea(int[] height) {
+        if(height.length<2) return 0;
+        int left = 0,right = 1;
+        int v = 0;
+        for( left=0;left<=height.length-2;left++){
+            right = left+1;
+            if(left>1&&height[left]<height[left-1]) continue;
+            while(right<height.length){
+                int high = height[left]<height[right]?height[left]:height[right];
+                int temp = (right-left)*high;
+                if(temp>v){
+                    v = temp;
+                }
+                right++;
+            }
+        }
+        return v;
+    }
+    
+ 大佬的解法不多说自己看
+    public int maxArea(int[] height) {
+        if(height==null || height.length<=0)
+            return 0;
+        int l = 0;
+        int r = height.length-1;
+        int result = 0;
+        while(l<r){
+            int temp = Math.min(height[r],height[l])*(r-l);
+            result = result>=temp ? result : temp;
+            if(height[l]<height[r])
+                l++;
+            else
+                r--;
+        }    
+        return result;
+    }
+    
