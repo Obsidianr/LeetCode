@@ -1,0 +1,28 @@
+  
+  /*按空格分开字符串 然后每个单词按照反转字符串的方法双指针反转就行*/
+  
+  public String reverseWords(String s) {
+         char[] str = s.toCharArray();
+        int left = 0;
+        int right = 0;
+        char temp ;
+        String res = "";
+       while(left<str.length-1){
+            while(str[right]!=' '&&right!=str.length-1){//找到下一个空格
+                right++;
+            }
+            int a = right--;  /// 定位有指针
+            if (right==str.length-2) right++;
+
+            while(left<right){    //反转单词
+                temp = str[left];
+                str[left] = str[right];
+                str[right] = temp;
+                left++;
+                right--;
+            }
+            left = a+1;  //移动作指针
+            right=left;
+        }
+     return new String(str);
+    }
