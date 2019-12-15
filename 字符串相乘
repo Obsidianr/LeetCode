@@ -1,0 +1,45 @@
+/*竖式相乘*/ 
+
+
+
+public String multiply(String num1, String num2) {
+        if(num1.length()<1||num2.length()<1) return null;
+        if(num1.equals("0")||num2.equals("0")) return "0";
+        if(num1.length()>num2.length()){//位数少的在上面，位数多的在下面，下面的乘上面的，下面的进一位，结果也进一位
+            String str = num1;
+            num1 = num2;
+            num2 = str;
+        }
+        int[] res = new int[num1.length()+num2.length()];
+        int temp = 0;
+        int index = 0;
+        for(int i=num2.length()-1;i>=0;i--){       //下面的进位
+            index = num2.length()-1-i;             //值从0位开始记录
+            for (int j=num1.length()-1;j>=0;j--){    //挨个乘上面的
+                temp = (num1.charAt(j)-'0')*(num2.charAt(i)-'0');
+                res[index] += temp%10;           //进位其实可以单独再算一遍，这块只算就行
+                if(res[index]>=10){
+                    res[index+1] += res[index]/10;
+                    res[index] = res[index]%10;
+                }
+                res[index+1] += temp/10;
+                if(res[index+1]>=10){
+                    res[index+2] += res[index+1]/10;
+                    res[index+1] = res[index+1]%10;
+                }
+                index++;
+
+            }
+        }
+        int i = res.length-1;//值反转，优化：   上面记录的时候倒着记就可以免除这个
+        while(res[i]==0){
+            i--;
+        }
+        String result = "";    //转换为字符串 new String（res）
+        while(i>=0){
+            result = result + res[i];
+            i--;
+        }
+        return result;
+        
+    }
