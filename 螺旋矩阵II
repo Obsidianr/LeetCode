@@ -1,0 +1,21 @@
+ /*
+    
+ */
+ 
+ public int[][] generateMatrix(int n) {
+         int[][] nums = new int[n][n];
+        int cl = 0, cr = n-1;
+        int ru = 0, rd = n-1;
+        int num = 1;
+        while(num<=n*n){
+            for(int c=cl;c<=cr;c++) nums[ru][c] = num++;
+            for(int r=ru+1;r<rd;r++) nums[r][cr] = num++;
+            for(int c=cr;c>cl;c--) nums[rd][c] = num++;
+            for(int r=rd;r>ru;r--) nums[r][cl] = num++;
+            ru++;
+            cl++;
+            rd--;
+            cr--;
+        }
+        return nums;
+    }
