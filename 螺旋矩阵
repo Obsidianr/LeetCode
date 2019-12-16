@@ -1,0 +1,82 @@
+ /*按层模拟，最外层旋转输出，然后是次外层。。。*/
+  public List < Integer > spiralOrder(int[][] matrix) {
+        List<Integer> list = new  ArrayList<Integer>();
+        int row = matrix.length;
+        if(row==0) return list;
+        int clo = matrix[0].length;
+        if(clo==1){  //只有一列
+            for(int i=0;i<row;i++){
+                list.add(matrix[i][0]);
+            }
+            return list;
+        }
+        if(row==1){   //只有一行
+           for(int i=0;i<clo;i++){
+               list.add(matrix[0][i]);
+           }
+           return list;
+        }
+        int min = row<clo?row-1:clo-1;
+        int index1 = 0;
+        int index2 = 0;
+        int i = 0;
+        boolean flag = true;
+        while(flag){
+            while(index2<clo-i){   //上
+                list.add(matrix[index1][index2++]);
+
+            }
+            index2--;
+            index1++;
+            while(index1<row-i){   //右
+                list.add(matrix[index1++][index2]);
+            }
+            if(list.size()==row*clo) return list;
+            index1--;
+            while(index2>i){     //下
+                list.add(matrix[index1][--index2]);
+            }
+            if(list.size()==row*clo) return list;
+            i++;
+            while(index1>i){    //左
+                list.add(matrix[--index1][index2]);
+            }
+            index2++;
+            if(row%2!=0&&index1==row/2) flag=false;
+            if(list.size()==row*clo) return list;
+        }
+        if(row%2!=0){  //剩下的最中间一行
+            while(index2<clo-i){
+                list.add(matrix[index1][index2++]);
+            }
+        }
+       return list;       
+     }
+       
+       
+///////////////////////////////////////////////////////////////////////////////////////////////////////       
+        public List < Integer > spiralOrder(int[][] matrix) {
+        List ans = new ArrayList();
+        if (matrix.length == 0)
+            return ans;
+        int r1 = 0, r2 = matrix.length - 1;
+        int c1 = 0, c2 = matrix[0].length - 1;
+        while (r1 <= r2 && c1 <= c2) {
+            for (int c = c1; c <= c2; c++) ans.add(matrix[r1][c]);
+            for (int r = r1 + 1; r <= r2; r++) ans.add(matrix[r][c2]);
+            if (r1 < r2 && c1 < c2) {
+                for (int c = c2 - 1; c > c1; c--) ans.add(matrix[r2][c]);
+                for (int r = r2; r > r1; r--) ans.add(matrix[r][c1]);
+            }
+            r1++;
+            r2--;
+            c1++;
+            c2--;
+        }
+        return ans;
+    }
+
+作者：LeetCode
+链接：https://leetcode-cn.com/problems/spiral-matrix/solution/luo-xuan-ju-zhen-by-leetcode/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
