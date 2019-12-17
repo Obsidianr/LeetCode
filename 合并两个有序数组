@@ -1,0 +1,41 @@
+/*
+大致思路：双指针法
+     要将num2合并到num1中，所以num1的空间刚好等于num1.length+num2.length
+     现将指针指向两个数组的最后一位数（num1后面空余的不算，指向num1最后一个有效数字）
+     由于数组有序，所以比较两个数组的最大值，就是合并后数组的最大值，将其放在num1的最后面（最后的空位）
+     然后较大的数的指针前移接着比较次大的，直到有一个数组指针小于零，另一个数组直接放进去就行
+     时间复杂度O(n+m)
+*/ 
+ 
+ 
+ public void merge(int[] nums1, int m, int[] nums2, int n) {
+       if(m==0) {
+            for(int i=0;i<n;i++){
+                nums1[i] = nums2[i];
+            }
+        }
+        else if(n==0);
+        else{
+            int index1 = m-1;   ///n1的有效长度
+            int index2 = n-1;   ///n2的有效长度
+            int len = nums1.length-1;   ///合并后数组的长度
+            while(len>0){
+                if(nums2[index2]>nums1[index1]) {   //保存较大者
+                    nums1[len] = nums2[index2];
+                    index2--;
+                }
+                else {
+                    nums1[len] = nums1[index1];
+                    index1--;
+                }
+                len--;
+                if(index1<0){
+                    while(index2>=0){
+                        nums1[len--] = nums2[index2--];
+                    }
+                }
+                if(index2<0)break;
+            }
+        }
+    }
+    
