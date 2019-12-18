@@ -1,0 +1,16 @@
+/*
+  
+*/
+
+public static ListNode reverseList(ListNode head) {
+            if(head.next == null) return head
+            ListNode list = new ListNode(head.val) ;
+            list.next = null;
+            while(head.next != null){
+                ListNode l = new ListNode(head.next.val) ;
+                l.next = list;
+               list = l;
+               head = head.next;
+            }
+            return list;
+        }
