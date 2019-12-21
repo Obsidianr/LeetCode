@@ -1,0 +1,73 @@
+
+ /*
+ 把合并k个有序链表转化为合并两个有序链表，将第一个确定为中间链表，然后和第二个合并，生成的链表在和第三个合并直到最后一个链表；
+ */
+ public ListNode mergeKLists(ListNode[] lists) {
+        int count = lists.length;
+        ListNode resList  = new ListNode(Integer.MIN_VALUE);
+        for(int i = 0;i < count;i ++){
+            resList = mergeTwoNumbers(resList,lists[i]);
+        }
+        return resList.next;
+    }
+
+    public static ListNode mergeTwoNumbers(ListNode l1,ListNode l2){
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        ListNode resList = new ListNode(Integer.MIN_VALUE);
+        ListNode result = resList;
+        while(l1 != null && l2 != null ){
+            if(l1.val <= l2.val){
+                resList.next = new ListNode(l1.val);
+                l1 = l1.next;
+            }else{
+                resList.next = new ListNode(l2.val);
+                l2 = l2.next;
+            }
+            resList = resList.next;
+        }
+        if(l1 != null) resList.next = l1;
+        if(l2 != null) resList.next = l2;
+        return result.next;
+    }
+/*
+优化：运用分治的办法，将所有链表两两合并
+*/
+
+public ListNode mergeKLists(ListNode[] lists) {
+       int count = lists.length;
+        if(count == 0) return null;
+        if(count == 1) return lists[0];
+        if (count == 2) return mergeTwoNumbers(lists[0],lists[1]);
+        int mid = count/2;
+        ListNode[] l1  = new ListNode[(count)/2];
+        ListNode[] l2  = new ListNode[count-(count)/2];
+        int i = 0;
+        for(;i < mid;i++){
+            l1[i] = lists[i];
+        }
+        for(int j = 0;i < count;j++,i++){
+            l2[j] = lists[i];
+        }
+        return mergeTwoNumbers(mergeKLists(l1),mergeKLists(l2));
+    }
+
+    public static ListNode mergeTwoNumbers(ListNode l1,ListNode l2){
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        ListNode resList = new ListNode(Integer.MIN_VALUE);
+        ListNode result = resList;
+        while(l1 != null && l2 != null ){
+            if(l1.val <= l2.val){
+                resList.next = new ListNode(l1.val);
+                l1 = l1.next;
+            }else{
+                resList.next = new ListNode(l2.val);
+                l2 = l2.next;
+            }
+            resList = resList.next;
+        }
+        if(l1 != null) resList.next = l1;
+        if(l2 != null) resList.next = l2;
+        return result.next;
+    }
