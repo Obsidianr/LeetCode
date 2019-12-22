@@ -1,0 +1,33 @@
+/*
+  移动次数分两种情况：移动次数大于链表长度、移动次数小于链表长度
+*/
+public ListNode rotateRight(ListNode head, int k) {
+        if(head == null) return head;
+        if(head.next ==null) return head;  //只有一个节点
+        if(k == 0) return head;
+        ListNode l1 = head;
+        ListNode l2 = l1;
+        ListNode l3 = head;
+
+        for(int i = 1;i <= k;i ++){   //移动K次
+            if(head == null){   //移动次数大于链表长度
+               i = k - k % (i-1);  //移动次数对链表长度取模运算，直接跳到最后一次移动循环
+                if(i == k) return l1;  //移动次数为链表长度的倍数，则效果和不移动一样
+                head = l1;  //重新移动
+            }
+            else
+              head = head.next;
+        }
+        if(head == null) return l1; //链表长度刚好等于K
+        l2 = head;  //记录移动的距离，
+        /*  l1为链表头，l1,l2同时向后移动，当l2走到链表尾时，l1记录的位置的节点刚好移动到链表尾，
+            而l1的next的节点移动后刚好是旋转后链表的的头结点*/
+        while(l2.next != null){    
+            l2 = l2.next;
+            l1 = l1.next;
+        }
+        l2.next = l3;//未旋转的最后一个节点的next为null，旋转后他的next为原来的头节点
+        head = l1.next;//旋转后的链表的头结点
+        l1.next = null;//旋转后的尾节点
+        return head;
+    }
