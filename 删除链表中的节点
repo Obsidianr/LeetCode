@@ -1,0 +1,9 @@
+ 
+ /*
+  这是一道阅读理解题，读懂题目就行
+ */
+ public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+        
+    }
