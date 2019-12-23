@@ -1,0 +1,47 @@
+/*
+  判断是否相交并找到交点，这不是跟环形链表II一样吗，将链表一的尾指向头部，然后直接调用环形链表II将链表二传入，即可返回交点
+*/
+ public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
+        ListNode l1 = headA;
+        while(headA.next != null){
+            headA = headA.next;
+        }
+        headA.next = l1;
+        l1 = detectCycle(headB);
+        headA.next = null;
+        return l1;
+    }
+    public ListNode detectCycle(ListNode head) {
+        if(head == null)return null;
+        ListNode l1 = head;
+        ListNode l2 = head;
+        while(l2.next != null&&l2.next.next != null){
+            l1 = l1.next;
+            l2 = l2.next.next;
+            if(l1 == l2)break;         
+        }
+        if(l2.next == null||l2.next.next == null) return null;
+        l1 = head;
+        while(l1 != l2){
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        return l1; 
+    }
+    
+    /*
+      但是要求不能修改链表；
+      遍历两个链表，当A走到尾时指针指向B的头部，当B走到尾时指向A的头部，这样他们就能同时到达交点
+      走的速度相同，时间，路程相同然后在交点相遇
+    */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    if (headA == null || headB == null) return null;
+    ListNode pA = headA;
+    ListNode pB = headB;
+    while (pA != pB) {
+        pA = pA == null ? headB : pA.next;
+        pB = pB == null ? headA : pB.next;
+    }
+    return pA;
+}
