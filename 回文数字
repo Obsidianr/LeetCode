@@ -1,0 +1,21 @@
+/*
+回文数字，检查反转后两个数字是否相等
+*/
+
+public boolean isPalindrome(int x) {
+        if(x < 0) return false;
+        int a = reverse(x);
+        if(a == x) return true;
+        else return false;
+    }
+     public int reverse(int x) {
+        long result = 0;
+        while(x >= 10 ||x <= -10){
+            result += x%10;
+            x = x/10;
+            result = result*10;
+        }
+        result += x;
+        if(result > Integer.MAX_VALUE || result <Integer.MIN_VALUE) return 0;
+        return (int)result;
+    }
