@@ -1,0 +1,17 @@
+ /*
+ 反转后可能出现溢出，如果用int记录结果有些麻烦，所以改用long记录结果，省去了判断溢出处理
+ 每次对10取模运算的结果就是最后一位，结果值乘以10加上取模运算的结果
+ */
+ 
+ 
+ public int reverse(int x) {
+        long result = 0;
+        while(x >= 10 ||x <= -10){
+            result += x%10;
+            x = x/10;
+            result = result*10;
+        }
+        result += x;
+        if(result > Integer.MAX_VALUE || result <Integer.MIN_VALUE) return 0;
+        return (int)result;
+    }
