@@ -37,3 +37,27 @@
     }
     
     /*******************************************************************************/
+    /*
+     摩尔投票法
+         将第一个数默认为是众数，然后向后遍历，如果与当前众数相同则计数加一，如果不同就减一，
+         若计数减到一就舍弃已经遍历过的元素，从下一个数开始继续投票。
+         （舍弃掉的元素中众数和非众数数量一样多，剩余的元素中，还是众数多，所以继续投票并不影响结果）
+         时间复杂度O(n)
+         空间复杂度O(1)
+    */
+    
+    public int majorityElement(int[] nums) {
+        int count = 0;
+        int result = 0;
+        for(int i=0;i<nums.length;i++){
+            if(count == 0) {
+                result = nums[i];
+                count++;
+            }
+            else{
+                if(result == nums[i]) count++;
+                else count--;
+            }
+        }
+        return result;
+    }
