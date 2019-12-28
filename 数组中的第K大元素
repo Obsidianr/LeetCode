@@ -1,0 +1,64 @@
+在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+
+示例 1:
+输入: [3,2,1,5,6,4] 和 k = 2
+输出: 5
+
+示例 2:
+输入: [3,2,3,1,2,4,5,5,6] 和 k = 4
+输出: 4
+
+/*
+求第K大的元素，先想到的是排序，然后取出第K大的，但是排序最快时间复杂度为O(nlogn)
+参看评论题解：遍历数组，将读到的数放入PriorityQueue优先队列中，
+PriorityQueue会检验每个输入的数自动进行升序排序，最小值位于栈顶，
+控制优先队列的大小为K，如果大于K则弹出栈顶元素，这样等遍历完数组，栈顶元素就是数组中第K大的元素
+当然算法的时间复杂度仍然是O(n)
+*/
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> heap = new PriorityQueue<Integer>();
+        for(int i=0;i<nums.length;i++){
+            heap.add(nums[i]);
+            if(heap.size()>k)
+                heap.poll();
+        }
+        return heap.poll();
+    }
+    
+ /*********************************************************************************/
+ /*
+ 第K大，即第nums.length-K个数
+  运用快排的思路，随机找一个数作为阈值，比他大的放他右边，比他小的放他左边，
+  然后这个阈值就排在了他最终的位置，然后比较阈值和第K大的数的关系
+      如果阈值小于第K大的数，则从阈值之后的后半个数组继续递归
+      如果阈值大于第K大的数，则从阈值之前的后前个数组继续递归
+      这样应该比快排快一点，但是结果却慢了很多很多，可能代码还存在一定的问题，今天先到这里。
+ */
+     public int findKthLargest(int[] nums, int k) {
+                int high = nums.length-1;
+        int low = 0;
+        while(low<high){
+            int temp = nums[low];
+            while(low < high){
+                while(temp <= nums[high] && high>low) {
+                    high--;
+                }
+                nums[low] = nums[high];
+                while(temp >= nums[low] && low<high){
+                    low++;
+                }
+                nums[high] = nums[low];
+            }
+            nums[low] = temp;
+            if(low == nums.length-k) return  nums[low];
+            if(low < nums.length-k) {
+                high = nums.length-1;
+                low++;
+            }
+            if(low > nums.length-k){
+                low = 0;
+                high--;
+            }
+        }
+        return nums[low];
+    }
