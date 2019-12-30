@@ -1,0 +1,87 @@
+给定一个二叉树，找出其最大深度。
+
+二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+
+说明: 叶子节点是指没有子节点的节点。
+
+示例：
+给定二叉树 [3,9,20,null,null,15,7]，
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回它的最大深度 3 。
+
+/*
+  计算二叉树的最大深度，深度优先遍历
+*/
+//递归
+class Solution {
+    int count = 0;
+    int max = 0;
+    public int maxDepth(TreeNode root) {
+        if(root == null) return 0;
+        deep(root);
+        return max;
+    }
+    public void deep(TreeNode root){
+        if(root == null) {
+            if(count > max) max = count;  //记录最大深度
+            return;
+        }
+        count++; //遍历下一层子树，计数加一
+        deep(root.left);
+        deep(root.right);
+        count--;  //遍历完当前层子树，返回父节点，计数减一
+    }
+}
+
+
+////////////简洁版
+public int maxDepth(TreeNode root) {
+        return root == null ? 0 : Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    
+///////////////////////////////////////////////////////////////////////////////////////////////////  
+  //非递归
+  
+      /**
+     * DFS迭代实现二叉树最大深度
+     * 时间复杂度O(n)
+     * 空间复杂度:线性表最差O(n)、二叉树完全平衡最好O(logn)
+     *
+     * @param root 根节点
+     * @return 最大深度
+     */
+    private static int maxDepth2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        LinkedList<Pair<TreeNode, Integer>> stack = new LinkedList<>();
+        stack.push(new Pair<>(root, 1));
+        int maxDepth = 0;
+        //DFS实现前序遍历，每个节点记录其所在深度
+        while (!stack.isEmpty()) {
+            Pair<TreeNode, Integer> pair = stack.pop();
+            TreeNode node = pair.first;
+            //DFS过程不断比较更新最大深度
+            maxDepth = Math.max(maxDepth, pair.second);
+            //记录当前节点所在深度
+            int curDepth = pair.second;
+            //当前节点的子节点入栈，同时深度+1
+            if (node.right != null) {
+                stack.push(new Pair<>(node.right, curDepth + 1));
+            }
+            if (node.left != null) {
+                stack.push(new Pair<>(node.left, curDepth + 1));
+            }
+        }
+        return maxDepth;
+    }
+
+
+作者：zhengzhong
+链接：https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/solution/javashi-xian-san-chong-fang-fa-di-gui-shi-xian-die/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
